@@ -820,12 +820,12 @@ IMPC_EYE_019_001	present right eye	1
 IMPC_EYE_019_001	present both eyes	1
 IMPC_EYE_019_001	no data left eye, present right eye	1
 IMPC_EYE_019_001	no data right eye, present left eye	1
-IMPC_EYE_018_001	absent	0
-IMPC_EYE_018_001	present left eye	1
-IMPC_EYE_018_001	present right eye	1
-IMPC_EYE_018_001	present both eyes	1
-IMPC_EYE_018_001	no data left eye, present right eye	1
-IMPC_EYE_018_001	no data right eye, present left eye	1
+JAXLA_EYE_018_001	absent	0
+JAXLA_EYE_018_001	present left eye	1
+JAXLA_EYE_018_001	present right eye	1
+JAXLA_EYE_018_001	present both eyes	1
+JAXLA_EYE_018_001	no data left eye, present right eye	1
+JAXLA_EYE_018_001	no data right eye, present left eye	1
 IMPC_EYE_017_001	absent	0
 IMPC_EYE_017_001	present left eye	1
 IMPC_EYE_017_001	present right eye	1
