@@ -185,19 +185,7 @@ sbatch \
 - When you are sure that all files are there, you can share the path with Federico.
 **Note**: in the slides transfer=TRUE, which means we haven't transfered files this time. 
 
-## Step 3. Run the Report Generating Pipeline
-This process generates statistical reports typically utilized by the IMPC working groups. 
-1. Navigate to `${KOMP_PATH}/impc_statistical_pipeline/IMPC_DRs/stats_pipeline_input_drXX.y/SP/jobs/Results_IMPC_SP_Windowed`
-2. Allocate a high memory machine on cluster and initialise an interactive shell: 
-`bsub –M 300000 –e errReportGeneratingPipeline –o outReportGeneratingPipeline –Is /bin/bash`
-3. The commands below will generate two CSV files in the `${KOMP_PATH}/impc_statistical_pipeline/IMPC_DRs/stats_pipeline_input_drXX.y/SP/jobs/Results_IMPC_SP_Windowed` directory for the unidimentional and categorical results. The files can be gzip and moved to the FTP directory. You can decorate and format the files by using one of the formatted files in the previous data releases.
-```console
-R
-DRrequiredAgeing:::IMPC_statspipelinePostProcess(mp_chooser_file=${MP_CHOOSER_FILE})
-DRrequiredAgeing:::ClearReportsAfterCreation()
-```
-
-## Step 4. Run the Extraction of Risky Genes Pipeline
+## Step 3. Run the Extraction of Risky Genes Pipeline
 This process generates a list of risky genes to check manually.
 1. Allocate a machine on codon cluster: `bsub –M 8000 –Is /bin/bash`
 2. Open an R session: `R`
@@ -235,8 +223,3 @@ YYY: Hadoop:`/hadoop/user/mi_stats/impc/statpackets/DRXX.YY/`<br><br>
 - ***How can one determine if a file has not been successfully transferred to the Hadoop cluster?***<br>
 If a file is located in the DDD directory and is in a gzipped format, it can be considered as successfully transferred.<br>
 DDD: Codon:`${KOMP_PATH}/impc_statistical_pipeline/IMPC_DRs/stats_pipeline_input_drXX.YY/SP/jobs/Results_IMPC_SP_Windowed/AnnotationExtractorAndHadoopLoader/tmp`<br><br>
-- ***How can I transfer files that have failed into Hadoop?***<br>
-    - First navigate to DDD: `cd DDD`<br>
-    - Move the non-gzipped files to YYY using SCP command. Alternatively, if you are using R and have an R session open in the `DDD` directory, you can run the following R command: `DRrequiredAgeing:::HadoopReTransferSCP(prefix=‘DRXX.YY/tmpDir’)`<br>
-    - This command will clean up all .gz files (which were already successfully transferred) from the directory and transfer the remaining files into a directory named `tmpDir` on Hadoop.<br>
-    - After the transfer, move the files from `tmpDir` into the 'YYY' directory. It's important to note that the Hadoop HDFS does not allow rewriting files. If the file already exists in the target directory `YYY`, the process will fail. Hence, the intermediate step of transferring to `tmpDir` is essential to avoid conflicts.
