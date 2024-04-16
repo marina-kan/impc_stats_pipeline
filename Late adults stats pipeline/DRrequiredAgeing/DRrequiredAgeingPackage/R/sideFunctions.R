@@ -6198,52 +6198,6 @@ IMPC_HadoopLoad = function(SP.results = getwd(),
 
 }
 
-HadoopReTransferSCP = function(wd = getwd(),
-                               pattern = '_.statpackets',
-                               today = format(Sys.time(), '%d%m%Y'),
-                               host =  "hadoop-login-02",
-                               path = '/hadoop/user/mi_stats/impc/statpackets/',
-                               prefix = 'DRXXX_',
-                               user =  Sys.info()['user']) {
-  library('data.table')
-  ########################### Annotation pipeline #################################
-  ##############################
-  library(data.table)
-  library(jsonlite)
-  library(rlist)
-  library(Tmisc)
-  library(rwebhdfs)
-
-  hadoopbase = file.path(path,
-                         prefix,
-                         today)
-
-  files1 = list.files(pattern = '_.statpackets.gz', full.names = TRUE)
-  message('Step1. Deleting .gz files ...')
-  for (file1 in files1) {
-    unlink(file1)
-  }
-
-  command = paste0('scp -r ', wd, ' ', host, ':', hadoopbase)
-  message('Step2. Transfering files.  \n',
-          command)
-
-  system(paste0('ssh ', host, ' "mkdir -p ', hadoopbase, '"'), wait = TRUE)
-
-  command = gsub(
-    pattern = '//',
-    replacement = '/',
-    x = command,
-    fixed = TRUE
-  )
-
-  system(command = command,
-         wait = TRUE)
-
-  return('Done!')
-
-}
-
 #library(quantreg)
 extractRiskyGenesFromDRs = function(newDRReportpath = '../DR19_Reports/DR19_AllSuccessful_WithQvaluesAndMPtermsdata_point_of_type_unidimensional.csv.gz',
                                     oldDRReportpath = '../DR18_Reports/DR18StatisticalResultsReportContinuous.csv.gz') {
