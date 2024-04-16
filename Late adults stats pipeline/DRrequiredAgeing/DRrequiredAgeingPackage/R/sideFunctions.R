@@ -6244,68 +6244,6 @@ HadoopReTransferSCP = function(wd = getwd(),
 
 }
 
-HadoopReTransfer = function(wd = getwd(),
-                            today = format(Sys.time(), '%d%m%Y'),
-                            host =  "hh-hdp-master-02.ebi.ac.uk",
-                            path = 'impc/statpackets',
-                            prefix = 'DRXXX_',
-                            port = '50070',
-                            user =  Sys.info()['user'],
-                            password = 'impc') {
-  library('data.table')
-  ########################### Annotation pipeline #################################
-  ##############################
-  library(data.table)
-  library(jsonlite)
-  library(rlist)
-  library(Tmisc)
-  library(rwebhdfs)
-
-  hadoopbase = file.path(path,
-                         prefix,
-                         today)
-
-  hdfs <-
-    webhdfs(
-      namenode_host = host,
-      namenode_port = port,
-      hdfs_username =  user
-    )
-  rwebhdfs::mkdir(hdfs, hadoopbase)
-
-  files = list.files(wd, full.names = TRUE,recursive = FALSE,include.dirs = FALSE)
-  for (file in files) {
-    message('processing:  ', file)
-    hadoopPath = file.path(hadoopbase,
-                           paste0(basename(file), '_.statpackets'))
-
-
-
-    transfered = rwebhdfs::write_file(
-      fs = hdfs,
-      targetPath = hadoopPath,
-      srcPath = file,
-      sizeWarn = 10 ^ 30,
-      append = FALSE,
-      overwrite = TRUE
-    )
-    gc()
-
-    if (transfered) {
-      message('Transfer successful.')
-      message('Compressing the temp statpacket file.')
-      # system(command = paste0('gzip ', file),
-      #        wait = TRUE)
-      message('Done!')
-    }  else{
-      stop('Transfered not successful!')
-    }
-  }
-
-  return('Done!')
-
-}
-
 #library(quantreg)
 extractRiskyGenesFromDRs = function(newDRReportpath = '../DR19_Reports/DR19_AllSuccessful_WithQvaluesAndMPtermsdata_point_of_type_unidimensional.csv.gz',
                                     oldDRReportpath = '../DR18_Reports/DR18StatisticalResultsReportContinuous.csv.gz') {
