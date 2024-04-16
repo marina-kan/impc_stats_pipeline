@@ -6063,55 +6063,6 @@ annotationIndexCreator = function(path = getwd(),
 ##########################################
 ############## End of annotation pipeline
 ##########################################
-splitIndexFileIntoPiecesForPvalueExtraction = function(indexFilePath = NULL,
-                                                       split = 1500,
-                                                       mem = "9G",
-                                                       time = "2-00",
-                                                       outputfile = 'ExtractPValJobs.bch',
-                                                       mp_chooser_file = NULL) {
-  ldf = length(readLines(indexFilePath))
-  ind = round(seq(1, ldf, length.out = split))
-
-  if (file.exists(outputfile))
-    unlink(outputfile)
-
-  if (!dir.exists('error'))
-    dir.create('error', recursive = TRUE)
-
-  if (!dir.exists('output'))
-    dir.create('output', recursive = TRUE)
-
-  if (!dir.exists('resultF'))
-    dir.create('resultF', recursive = TRUE)
-
-  for (i in 2:(length(ind) + 1)) {
-    write(
-      paste(
-        "sbatch --job-name=impc_stats_pipeline_job --mem=", mem,
-        " --time=", time,
-        ' -e "error/err',
-        i,
-        '" -o "output/out',
-        i,
-        '" ',
-        "--wrap='Rscript ExtractPVals.R ",
-        ind[i - 1],
-        ' ',
-        ind[i] - 1,
-        ' "',
-        indexFilePath,
-        '" "',
-        mp_chooser_file,
-        '"',
-        "'",
-        sep = ''
-      ),
-      file = outputfile,
-      ncolumns = 10 ^ 3,
-      append = TRUE
-    )
-  }
-}
 
 changeRpackageDirectory = function(path = '~/DRs/R/packages') {
   #system('module load r-4.0.3-gcc-9.3.0-xiarbub',wait = TRUE)
