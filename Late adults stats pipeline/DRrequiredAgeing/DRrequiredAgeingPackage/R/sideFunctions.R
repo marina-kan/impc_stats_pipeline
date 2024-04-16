@@ -4898,21 +4898,6 @@ StatsPipeline = function(path = getwd(),
   message0('SP finished in ', round(difftime(Sys.time(), startTime, units = "min"), 2))
 }
 
-editfile = function(file,
-                    searchwhat = '',
-                    replaceby = '') {
-  tx  <- readLines(file)
-  tx2  <-
-    gsub(
-      pattern = searchwhat,
-      replace = replaceby,
-      x = tx,
-      fixed = TRUE
-    )
-  writeLines(tx2, con = file)
-}
-
-
 install.packages.auto <- function(x) {
   x <- as.character(substitute(x))
   if(isTRUE(x %in% .packages(all.available=TRUE))) {
