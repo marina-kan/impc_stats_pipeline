@@ -6198,33 +6198,6 @@ IMPC_HadoopLoad = function(SP.results = getwd(),
 
 }
 
-ClearReportsAfterCreation = function(dirpath = getwd(),
-                                     pattern = 'csv',
-                                     sep = ',') {
-  files = list.files(
-    path = dirpath,
-    pattern = pattern,
-    full.names = TRUE,
-    recursive = FALSE
-  )
-
-  for (file in files) {
-    message('Processing: ', file)
-    df = data.table::fread(input = file, sep = sep)
-    df = subset(df, df$status == 'Successful')
-    maxmethod = table(df$`applied Method`)
-    maxgroup = names(maxmethod)[which.max(maxmethod)]
-    df = subset(df, df$`applied Method` == maxgroup)
-    df = as.data.frame(df)
-    write.csv(df,
-              file = file.path(dirname(file), paste0('AllSuccessful_', basename(file))),
-              row.names = FALSE)
-  }
-
-  return('Done!')
-}
-
-
 HadoopReTransferSCP = function(wd = getwd(),
                                pattern = '_.statpackets',
                                today = format(Sys.time(), '%d%m%Y'),
