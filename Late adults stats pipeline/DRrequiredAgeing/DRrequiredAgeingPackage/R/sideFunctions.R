@@ -4723,11 +4723,7 @@ GenotypeTag = function(obj,
       return(NULL)
     #### Make the list as sequence of names attached with dot (.)
     AllCombinations1 = unlist(AllCombinations)
-    if (!is.null(AllCombinations1)){
-      AllCombinations1 = AllCombinations1[grepl('Complete table',names(AllCombinations1))]
-    }
-    if (is.null(AllCombinations1))
-      return(NULL)
+    AllCombinations1 = AllCombinations1[grepl('Complete table',names(AllCombinations1))]
     #### Keep only genotype analysis
     AllCombinations2 = AllCombinations1[grepl(pattern = 'Genotype', x =
                                                 names(AllCombinations1))]
