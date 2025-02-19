@@ -4715,13 +4715,9 @@ GenotypeTag = function(obj,
     }
     #fmodels$Genotype$`Complete table`
     AllCombinations = lapply(fmodels, function(x) {
-      if (length(fmodels) > 0) {
-        lapply(x, function(y) {
-          DirectionTagFE(x = y$p.value, threshold = threshold)
-        })
-      } else{
-        DirectionTagFE(x = x$p.value, threshold = threshold)
-      }
+      lapply(x, function(y) {
+        DirectionTagFE(x = y$p.value, threshold = threshold)
+      })
     })
     if (is.null(AllCombinations))
       return(NULL)
